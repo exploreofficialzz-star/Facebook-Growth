@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: facebook-growth-backend
+    env: node
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: 
+          name: facebook-growth-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OAUTH_SERVER_URL
+        value: https://api.manus.im
+      - key: VITE_APP_ID
+        value: # YOUR_MANUS_APP_ID
+      - key: VITE_OAUTH_PORTAL_URL
+        value: https://portal.manus.im
+      - key: OWNER_OPEN_ID
+        value: # YOUR_OWNER_OPEN_ID
+      - key: OWNER_NAME
+        value: # YOUR_OWNER_NAME
+      - key: BUILT_IN_FORGE_API_URL
+        value: https://api.manus.im
+      - key: BUILT_IN_FORGE_API_KEY
+        generateValue: true
+
+  - type: worker
+    name: facebook-growth-bot-engine
+    env: node
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: 
+          name: facebook-growth-db
+          property: connectionString
+      - key: PROXY_API_KEY
+        generateValue: true
+
+databases:
+  - name: facebook-growth-db
+    plan: free
+    databaseName: facebook_growth
+    ipAllowList: [] # Allow all incoming connections
