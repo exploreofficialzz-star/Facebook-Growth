@@ -1,4 +1,4 @@
-import { int, pgTable, text, timestamp, varchar, uuid, pgEnum } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, varchar, uuid, pgEnum } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 export const userRoles = pgEnum("user_role", ["user", "admin"]);
@@ -24,20 +24,20 @@ export type Profile = typeof profiles.$inferSelect;
 export type InsertProfile = typeof profiles.$inferInsert;
 
 export const campaigns = pgTable("campaigns", {
-  id: int("id").primaryKey().generatedAlwaysAsIdentity(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   userId: uuid("user_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   facebookPageUrl: varchar("facebook_page_url", { length: 500 }).notNull(),
   facebookPageId: varchar("facebook_page_id", { length: 100 }),
-  targetFollowers: int("target_followers").notNull().default(0),
-  targetLikes: int("target_likes").notNull().default(0),
-  targetComments: int("target_comments").notNull().default(0),
-  targetShares: int("target_shares").notNull().default(0),
-  currentFollowers: int("current_followers").notNull().default(0),
-  currentLikes: int("current_likes").notNull().default(0),
-  currentComments: int("current_comments").notNull().default(0),
-  currentShares: int("current_shares").notNull().default(0),
+  targetFollowers: integer("target_followers").notNull().default(0),
+  targetLikes: integer("target_likes").notNull().default(0),
+  targetComments: integer("target_comments").notNull().default(0),
+  targetShares: integer("target_shares").notNull().default(0),
+  currentFollowers: integer("current_followers").notNull().default(0),
+  currentLikes: integer("current_likes").notNull().default(0),
+  currentComments: integer("current_comments").notNull().default(0),
+  currentShares: integer("current_shares").notNull().default(0),
   status: campaignStatus("status").default("draft").notNull(),
-  progress: int("progress").notNull().default(0),
+  progress: integer("progress").notNull().default(0),
   startedAt: timestamp("started_at"),
   completedAt: timestamp("completed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -52,24 +52,24 @@ export type Campaign = typeof campaigns.$inferSelect;
 export type InsertCampaign = typeof campaigns.$inferInsert;
 
 export const botAccounts = pgTable("bot_accounts", {
-  id: int("id").primaryKey().generatedAlwaysAsIdentity(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   userId: uuid("user_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   facebookEmail: varchar("facebook_email", { length: 255 }).notNull(),
   facebookUsername: varchar("facebook_username", { length: 255 }).notNull(),
   facebookPasswordEncrypted: text("facebook_password_encrypted").notNull(),
   status: botAccountStatus("status").default("warming").notNull(),
-  warmupPhase: int("warmup_phase").notNull().default(1),
-  daysActive: int("days_active").notNull().default(0),
+  warmupPhase: integer("warmup_phase").notNull().default(1),
+  daysActive: integer("days_active").notNull().default(0),
   lastActivityAt: timestamp("last_activity_at"),
-  proxyId: int("proxy_id"),
-  todayLikes: int("today_likes").notNull().default(0),
-  todayComments: int("today_comments").notNull().default(0),
-  todayShares: int("today_shares").notNull().default(0),
-  todayFollows: int("today_follows").notNull().default(0),
-  totalLikes: int("total_likes").notNull().default(0),
-  totalComments: int("total_comments").notNull().default(0),
-  totalShares: int("total_shares").notNull().default(0),
-  totalFollows: int("total_follows").notNull().default(0),
+  proxyId: integer("proxy_id"),
+  todayLikes: integer("today_likes").notNull().default(0),
+  todayComments: integer("today_comments").notNull().default(0),
+  todayShares: integer("today_shares").notNull().default(0),
+  todayFollows: integer("today_follows").notNull().default(0),
+  totalLikes: integer("total_likes").notNull().default(0),
+  totalComments: integer("total_comments").notNull().default(0),
+  totalShares: integer("total_shares").notNull().default(0),
+  totalFollows: integer("total_follows").notNull().default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -82,15 +82,15 @@ export type BotAccount = typeof botAccounts.$inferSelect;
 export type InsertBotAccount = typeof botAccounts.$inferInsert;
 
 export const proxies = pgTable("proxies", {
-  id: int("id").primaryKey().generatedAlwaysAsIdentity(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   userId: uuid("user_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   type: proxyType("type").notNull(),
   address: varchar("address", { length: 255 }).notNull(),
-  port: int("port").notNull(),
+  port: integer("port").notNull(),
   username: varchar("username", { length: 255 }),
   passwordEncrypted: text("password_encrypted"),
   status: proxyStatus("status").default("active").notNull(),
-  successRate: int("success_rate").notNull().default(100),
+  successRate: integer("success_rate").notNull().default(100),
   lastUsedAt: timestamp("last_used_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -104,9 +104,9 @@ export type Proxy = typeof proxies.$inferSelect;
 export type InsertProxy = typeof proxies.$inferInsert;
 
 export const activityLogs = pgTable("activity_logs", {
-  id: int("id").primaryKey().generatedAlwaysAsIdentity(),
-  campaignId: int("campaign_id").notNull().references(() => campaigns.id, { onDelete: "cascade" }),
-  botAccountId: int("bot_account_id").notNull().references(() => botAccounts.id, { onDelete: "cascade" }),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  campaignId: integer("campaign_id").notNull().references(() => campaigns.id, { onDelete: "cascade" }),
+  botAccountId: integer("bot_account_id").notNull().references(() => botAccounts.id, { onDelete: "cascade" }),
   actionType: activityActionType("action_type").notNull(),
   targetPostUrl: varchar("target_post_url", { length: 500 }),
   targetPageUrl: varchar("target_page_url", { length: 500 }),
