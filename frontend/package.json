@@ -43,6 +43,7 @@
     "@tanstack/react-query": "^5.90.2",
     "@trpc/client": "^11.6.0",
     "@trpc/react-query": "^11.6.0",
+    "@trpc/server": "^11.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -79,7 +80,7 @@
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.14",
     "typescript": "5.9.3",
-    "vite": "^7.1.7",
+    "vite": "^5.4.11",
     "vite-plugin-manus-runtime": "0.0.59",
     "vitest": "^2.1.4"
   },
